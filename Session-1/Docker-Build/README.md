@@ -24,6 +24,46 @@ Exec command Inside the Container
 
         docker exec -it <container_id> hostname
 
+Process Namespace Demonstration
+------------
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker run --name mongo1 -d mongo:4
+        d6be43678dadd7975e7b38cd7fd1e08a7b138daec6a46fba98fab189c43b2766
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker run --name mongo2 -d mongo:4
+        afe32a59808686d14469ad3d36a6a91274b9e9d326fabdccd940ba33a9219fab
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker ps
+        CONTAINER ID   IMAGE                      COMMAND                  CREATED             STATUS             PORTS                    NAMES
+        afe32a598086   mongo:4                    "docker-entrypoint.s…"   3 seconds ago       Up 3 seconds       27017/tcp                mongo2
+        d6be43678dad   mongo:4                    "docker-entrypoint.s…"   7 seconds ago       Up 7 seconds       27017/tcp                mongo1
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# ps -ef | grep mongo
+        systemd+   18987   18965  3 14:39 ?        00:00:01 mongod --bind_ip_all
+        systemd+   19129   19106  3 14:39 ?        00:00:01 mongod --bind_ip_all
+        root       19260    1189  0 14:40 pts/0    00:00:00 grep --color=auto mongo
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker exec mongo1 ps -ef
+        UID          PID    PPID  C STIME TTY          TIME CMD
+        mongodb        1       0  3 14:39 ?        00:00:01 mongod --bind_ip_all
+        root          57       0  0 14:40 ?        00:00:00 ps -ef
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker exec mongo2 ps -ef
+        UID          PID    PPID  C STIME TTY          TIME CMD
+        mongodb        1       0  2 14:39 ?        00:00:01 mongod --bind_ip_all
+        root          59       0  0 14:40 ?        00:00:00 ps -ef
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker run --name mongo-3 -d --pid=container:mongo1 mongo:4
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker exec mongo1 ps -ef
+        UID          PID    PPID  C STIME TTY          TIME CMD
+        mongodb        1       0  1 14:39 ?        00:00:02 mongod --bind_ip_all
+        mongodb       63       0  8 14:41 ?        00:00:01 mongod --bind_ip_all
+        root         113       0  0 14:41 ?        00:00:00 ps -ef
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# ps -ef | grep mongo
+        systemd+   18987   18965  1 14:39 ?        00:00:02 mongod --bind_ip_all
+        systemd+   19129   19106  1 14:39 ?        00:00:02 mongod --bind_ip_all
+        systemd+   19385   19356  2 14:41 ?        00:00:01 mongod --bind_ip_all
+
+Find Container's pid
+------------
+        root@container101-ubuntu:~/Container-k8s-enablement/Session-1/Docker-Build/go-scratch# docker inspect mongo1 | grep -i pid
+            "Pid": 18987,
+            "PidMode": "",
+            "PidsLimit": null,
+
 Access Container's Network Namespace
 ------------
 
