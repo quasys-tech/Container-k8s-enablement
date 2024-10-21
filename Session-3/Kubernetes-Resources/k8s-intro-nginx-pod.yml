@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k8s-intro-nginx
+spec:
+  containers:
+  - name: k8s-intro-nginx
+    image: quay.io/emre_celik/k8s-intro-nginx
+    ports:
+    - containerPort: 80
