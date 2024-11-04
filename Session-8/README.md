@@ -27,5 +27,17 @@ List API Resources from ETCDCTL
       sh-5.2# etcdctl get /registry/secrets/default/dotfile-secret
       /registry/secrets/default/dotfile-secret
       k8s
+
+Find Process id of a pod
+------------
+      bash-5.1 ~ $ oc debug node/<Node-Name>
+      sh-5.1# chroot /host
+      sh-5.1# crictl ps | grep k8s-intro-nginx-54c49877cd-ldw69    
+      sh-5.1# crictl inspect eb87be7417c89 | grep -i pid
+          "pid": 69074,
+                "pids": {
+                  "type": "pid"
+      sh-5.1# cd /proc/69074
+
       
       
