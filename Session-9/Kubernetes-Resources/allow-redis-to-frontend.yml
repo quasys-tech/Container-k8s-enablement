@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-redis-to-frontend
+  namespace: sample-app
+spec:
+  podSelector:
+    matchLabels:
+      app: guestbook  # Only applies to Frontend pods
+      tier: frontend
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: redis  # Allow traffic from Redis pods
+      ports:
+        - protocol: TCP
+          port: 80  # Frontend service port
+  policyTypes:
+    - Ingress  # Only control ingress traffic to Frontend pods
