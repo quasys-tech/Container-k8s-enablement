@@ -44,3 +44,9 @@ Image Signing and Verification
     vagrant@container101-ubuntu:~/cosign-certs$cosign generate-key-pair
     vagrant@container101-ubuntu:~/cosign-certs$cosign sign --key cosign.key quay.io/emre_celik/go-alpine:0.1-alpine3.18
     vagrant@container101-ubuntu:~/cosign-certs$cosign verify --key cosign.pub quay.io/emre_celik/go-alpine:0.1-alpine3.18
+    Verification for quay.io/emre_celik/go-alpine:0.1-alpine3.18 --
+    The following checks were performed on each of these signatures:
+      - The cosign claims were validated
+      - Existence of the claims in the transparency log was verified offline
+      - The signatures were verified against the specified public key
+
