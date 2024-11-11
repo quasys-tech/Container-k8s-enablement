@@ -9,15 +9,48 @@ Build Application
 Scan Image on Local with twistcli
 --------------
     [vagrant@ocp-svc go-alpine]$ twistcli images scan --user=$TW_USER --password=$TW_PASS --address=$TW_CONSOLE localhost/go-alpine:0.1-alpine3.18
+
+    Scan results for: image localhost/go-alpine:0.1-alpine3.18 7b1939f846e5b9a047ee086672d68e0f7288d5214db3317b19d9c71b788f07ad
     
-    Scan results for: image localhost/go-alpine:0.1-alpine3.18 044d25ded588b2a2d52beda44bb6a64e986d10d19b4803864406b69de2eef911
-    
-    Vulnerabilities found for image localhost/go-alpine:0.1-alpine3.18: total - 16, critical - 1, high - 1, medium - 8, low - 6
+    Vulnerabilities found for image localhost/go-alpine:0.1-alpine3.18: total - 16, critical - 1, high - 0, medium - 9, low - 6
     Vulnerability threshold check results: FAIL
     Scan failed due to vulnerability policy violations: Default - alert all components, 1 vulnerabilities. Blocking vulnerabilities by severity OR by risk factors. Severity distribution : [critical:1]
     
     Compliance found for image localhost/go-alpine:0.1-alpine3.18: total - 2, critical - 0, high - 2, medium - 0, low - 0
+    Compliance threshold check results: FAIL
+    Scan failed due to compliance policy violations: Default - alert on critical and high, 1 violations
+    Link to the results in Console:
+
+Build Application with New Dockerfile for Vulnerabilities
+--------------
+    [vagrant@ocp-svc go-alpine]$ cd Docker-Build/go-alpine-netip-fixed
+    [vagrant@ocp-svc go-alpine]$ podman build -t go-alpine-netip-fixed:0.1-alpine3.18 .
+    [vagrant@ocp-svc go-alpine]$ twistcli images scan --user=$TW_USER --password=$TW_PASS --address=$TW_CONSOLE localhost/go-alpine-netip-fixed:0.1-alpine3.18
+    Scan results for: image localhost/go-alpine-netip-fixed:0.1-alpine3.18 66c7f7233b3b44039b36bc38798d88383d88bf5d39cf106583d6b3dc369bdf00
+    
+    Vulnerabilities found for image localhost/go-alpine-netip-fixed:0.1-alpine3.18: total - 4, critical - 0, high - 0, medium - 3, low - 1
+    Vulnerability threshold check results: PASS
+    
+    Compliance found for image localhost/go-alpine-netip-fixed:0.1-alpine3.18: total - 2, critical - 0, high - 2, medium - 0, low - 0
+    Compliance threshold check results: FAIL
+    Scan failed due to compliance policy violations: Default - alert on critical and high, 2 violations
+    
+
+
+Build Application with New Dockerfile for Compliance
+--------------
+    [vagrant@ocp-svc go-alpine]$ cd Docker-Build/go-alpine-compliance-fixed
+    [vagrant@ocp-svc go-alpine]$ podman build -t go-alpine-compliance-fixed:0.1-alpine3.18 .
+    [vagrant@ocp-svc go-alpine-compliance-fixed]$ twistcli images scan --user=$TW_USER --password=$TW_PASS --address=$TW_CONSOLE localhost/go-alpine-compliance-fixed:0.1-alpine3.18
+    
+    Scan results for: image localhost/go-alpine-compliance-fixed:0.1-alpine3.18 6798d47eff3be93b026d97ee6b3e380ec24fe8072b319c3e6c5127138dc3461f
+    
+    Vulnerabilities found for image localhost/go-alpine-compliance-fixed:0.1-alpine3.18: total - 4, critical - 0, high - 0, medium - 3, low - 1
+    Vulnerability threshold check results: PASS
+    
+    Compliance found for image localhost/go-alpine-compliance-fixed:0.1-alpine3.18: total - 1, critical - 0, high - 1, medium - 0, low - 0
     Compliance threshold check results: PASS
+
 
 Prisma Cloud Trusted Images
 ---------------
