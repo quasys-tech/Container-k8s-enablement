@@ -11,3 +11,5 @@
 - LDAP entegrasyonu örneği.
 - Audit logs.
 #https://docs.openshift.com/container-platform/4.15/security/audit-log-view.html
+- File Integrity Monitor
+#https://docs.openshift.com/container-platform/4.15/security/file_integrity_operator/file-integrity-operator-understanding.html#understanding-file-integrity-operator
