@@ -8,3 +8,4 @@
 - Bileşenler arası sertifikalar, kubelet, api, etcd vs.
 #https://docs.openshift.com/container-platform/4.15/security/index.html
 - RBAC örneği, view only, edit role, rolebinding örneği.
+- LDAP entegrasyonu örneği.
