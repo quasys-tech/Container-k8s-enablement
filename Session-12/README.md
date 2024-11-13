@@ -24,3 +24,13 @@ kubelet-client-2024-11-13-08-41-56.pem  kubelet-client-current.pem  kubelet-serv
 Kubeapiserver to Kubelet CA
 -----------------
 ![image](https://github.com/user-attachments/assets/f05b8dcb-e835-46c3-a771-7d37e5298030)
+
+Openshift File Integrity
+------------------
+- Install Openshift File Integrity Monitor
+
+- Create fileintegrity custom resource with FileIntegrity.yml
+
+  sh-4.2# echo "# integrity test" >> /host/etc/resolv.conf
+
+
