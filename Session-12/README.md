@@ -9,3 +9,5 @@
 #https://docs.openshift.com/container-platform/4.15/security/index.html
 - RBAC örneği, view only, edit role, rolebinding örneği.
 - LDAP entegrasyonu örneği.
+- Audit logs.
+#https://docs.openshift.com/container-platform/4.15/security/audit-log-view.html
