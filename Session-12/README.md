@@ -42,7 +42,8 @@ Openshift File Integrity
 
 - Create fileintegrity custom resource with FileIntegrity.yml
   #Edit file on worker node.
-  sh-4.2# echo "# integrity test" >> /host/etc/resolv.conf
+
+      sh-4.2# echo "# integrity test" >> /host/etc/resolv.conf
 
 - Check Status.
 ![image](https://github.com/user-attachments/assets/791f8a46-96be-4d57-b505-cc5e7d56d925)
