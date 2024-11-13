@@ -30,7 +30,14 @@ Openshift File Integrity
 - Install Openshift File Integrity Monitor
 
 - Create fileintegrity custom resource with FileIntegrity.yml
-
+  #Edit file on worker node.
   sh-4.2# echo "# integrity test" >> /host/etc/resolv.conf
+
+- Check Status.
+![image](https://github.com/user-attachments/assets/791f8a46-96be-4d57-b505-cc5e7d56d925)
+
+- For details configmap:
+![image](https://github.com/user-attachments/assets/11e8e778-4dc8-4833-9058-c7d5f1b2e5b0)
+
 
 
