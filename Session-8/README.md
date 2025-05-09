@@ -26,6 +26,8 @@ List API Resources from ETCDCTL
       
       #Lists all resources in kubernetes.
       sh-5.2# etcdctl get / --prefix --keys-only
+
+      sh-5.2# /kubernetes.io/secrets/nginx-demo/dotfile-secret
       
       sh-5.2# etcdctl get /registry/secrets/default/dotfile-secret
       /registry/secrets/default/dotfile-secret
