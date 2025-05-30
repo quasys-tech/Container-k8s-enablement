@@ -18,3 +18,11 @@ Checkov uses a common command line interface to manage and analyze infrastructur
 https://www.checkov.io/
 https://github.com/bridgecrewio/checkov
 
+Checkov
+------------------------
+```
+checkov -d ./
+checkov -d ./ --framework kubernetes
+checkov -d ./ --framework kubernetes --skip-check CKV_K8S_15,CKV_K8S_28
+```
+![image](https://github.com/user-attachments/assets/0f5f7169-3baf-4b22-bcd3-0b7458d61035)
