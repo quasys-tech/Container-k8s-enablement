@@ -1,3 +1,8 @@
+Container Orchestration Security
+----------------
+
+- Restrict API, SSH Access
+- Enable etcd encryption
 
 Admission Controller
 ----------------
@@ -10,6 +15,12 @@ https://docs.openshift.com/container-platform/4.15/authentication/using-rbac.htm
 Openshift Self Managed Certificates
 -----------------
 https://docs.openshift.com/container-platform/4.15/security/index.html
+
+
+Remove kubeadmin, enable htpasswd
+-----------------
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/authentication_and_authorization/removing-kubeadmin#removing-kubeadmin_removing-kubeadmin
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/authentication_and_authorization/configuring-identity-providers#configuring-htpasswd-identity-provider
 
 Openshift LDAP Integration
 -----------------
