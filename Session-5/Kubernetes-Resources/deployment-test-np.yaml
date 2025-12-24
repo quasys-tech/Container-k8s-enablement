@@ -1,0 +1,21 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx-np
+  namespace: test-np
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-red
+  template:
+    metadata:
+      labels:
+        app: nginx-red
+    spec:
+      containers:
+        - name: nginx
+          image: 'nginx:latest'
+          ports:
+            - containerPort: 80
+              protocol: TCP
