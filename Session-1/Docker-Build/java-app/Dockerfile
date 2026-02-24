@@ -8,7 +8,7 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Step 2: Create the final image
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-focal
 WORKDIR /app
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 
