@@ -3,6 +3,8 @@ Enter the cluster with provided infos from your tutor.
 Head over to the Workloads -> Deployments section and make sure to select youyr namespace from top left corner.
 Then create the deployment and service instance we are gonna use
 ----------------
+mdyaml
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
