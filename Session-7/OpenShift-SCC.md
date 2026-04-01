@@ -172,8 +172,9 @@ spec:
             memory: 64Mi
 ```
 
-After that check the pods to make sure they get created and running.   
-<img width="1223" height="630" alt="image" src="https://github.com/user-attachments/assets/53223f6b-68e3-4cff-bddb-b1b19682c42d" />   
+After that check the pods to make sure they get created and running.      
+<img width="1635" height="707" alt="image" src="https://github.com/user-attachments/assets/f117b0e4-5cb1-4969-8c10-e1b0c6ef173d" />   
 
 Than head over to the route address and validate your application is running and reachable.   
-<img width="1458" height="495" alt="image" src="https://github.com/user-attachments/assets/bc4f9773-8275-4e49-8d79-f12d03f651db" />
+<img width="932" height="533" alt="image" src="https://github.com/user-attachments/assets/c83bdff1-7e18-4729-b8f6-a3f8326bf140" />   
+
