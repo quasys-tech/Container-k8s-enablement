@@ -53,7 +53,8 @@ spec:
 Create the Route isntance   
 
 Head over to the Networkings->Routes->Create Route from web ui
-<img width="2533" height="1137" alt="image" src="https://github.com/user-attachments/assets/67eff3bf-03fc-44b4-95bc-d5845114fab8" />
+<img width="2535" height="1077" alt="image" src="https://github.com/user-attachments/assets/73e09eaf-f559-4792-8b54-2211188ab07e" />   
+
 
 Create the route instance from form view, leave hostname as empty and path as "/". As service chose nginx-privileged-svc and "80 -> 8080" as target port.   
 Enable secure route box and select  edge as TLS termination method and none as Insecure traffic. Leave the tls certifiacte boxes empty and create the  route isntance.    
