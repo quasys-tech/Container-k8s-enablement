@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webserver-v1-green
+  name: webserver-v1-blue
 spec:
   replicas: 5
   selector:
