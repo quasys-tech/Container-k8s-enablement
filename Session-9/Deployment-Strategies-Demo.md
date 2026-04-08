@@ -165,8 +165,65 @@ geçiş öncesi güvenli test imkanı sağlar
 
 Production ortamlarında sık kullanılan bir yöntemdir.
 
+Openshift arayüzüne demo kullanıcısı ile login olunur.
 
+https://console-openshift-console.apps.ocp-qua-test.quasys.com.tr/
 
+<img width="677" height="330" alt="image" src="https://github.com/user-attachments/assets/80813ef8-350a-4ded-b979-e2371aa851c2" />
+
+<img width="558" height="444" alt="image" src="https://github.com/user-attachments/assets/aa83b40a-631f-4160-a8ae-93c22024ce27" />
+
+Eğer önceki demolar yapılmış ise, deployment, service ve route objeleri silinmelidir.
+
+Deployments > webserver-v1 > Delete Deployment
+NEtworking > Services > webserver-v1 > Delete Service
+Networking > Routes > Delete Route
+
+Aşağıdaki linkte bulunan yaml içeriği ile yeni deployment oluşturulur. 
+
+Workloads > Deployments > Create Deployment > Yaml view
+
+https://raw.githubusercontent.com/quasys-tech/Container-k8s-enablement/refs/heads/master/Session-9/Kubernetes-Resources/Deployment-Blue.yaml
+
+Aşağıdaki linkte bulunan yaml içeriği ile ikinci deployment oluşturulur. 
+
+Workloads > Deployments > Create Deployment > Yaml view
+
+https://raw.githubusercontent.com/quasys-tech/Container-k8s-enablement/refs/heads/master/Session-9/Kubernetes-Resources/Deployment-Green.yaml
+
+Aşağıdaki linkte bulunan yaml içeriği ile ilk service oluşturulur.
+
+Networking > Services > Create Service
+
+https://raw.githubusercontent.com/quasys-tech/Container-k8s-enablement/refs/heads/master/Session-9/Kubernetes-Resources/Service-Blue.yaml
+
+Aşağıdaki linkte bulunan yaml içeriği ile ikinci service oluşturulur.
+
+Networking > Services > Create Service
+
+https://raw.githubusercontent.com/quasys-tech/Container-k8s-enablement/refs/heads/master/Session-9/Kubernetes-Resources/Service-Green.yaml
+
+Uygulamayı dışarıya expose etmek için, route oluşturulur:
+
+Networking > Routes > Create Route
+
+<img width="1168" height="820" alt="image" src="https://github.com/user-attachments/assets/442f16ca-64e8-443d-ae76-eb72106e4968" />
+
+<img width="1597" height="671" alt="image" src="https://github.com/user-attachments/assets/98c9dc26-4137-4aa4-9dda-aaaec11bb46c" />
+
+<img width="1599" height="840" alt="image" src="https://github.com/user-attachments/assets/d5c3bb5d-36da-4f94-9aad-dc7e6d99ca61" />
+
+Networking > Routes > Location kısmındaki adres ile uygulamaya gidilebilir.
+
+<img width="1208" height="449" alt="image" src="https://github.com/user-attachments/assets/4f09a38e-54d6-4158-b152-d4acc58d6ab0" />
+
+<img width="1064" height="493" alt="image" src="https://github.com/user-attachments/assets/02271104-712a-4311-8346-6294fc2d69e1" />
+
+Şuan uygulamanın 2 versiyonu da deployed ve çalışır durumda. Workloads > Pods kısmından çalışan tüm podlar görüntülenebilir. Fakat route ile erişilen uygulama v3 uygulaması.
+
+<img width="1442" height="819" alt="image" src="https://github.com/user-attachments/assets/e73034cb-f7c2-4a4d-928a-4cce2b72704f" />
+
+Şimdi, podlarda bir değişiklik yapmadan, sadece route tanımındaki service tanımı değiştirilerek blue-green switch yapılır.
 
 
 
