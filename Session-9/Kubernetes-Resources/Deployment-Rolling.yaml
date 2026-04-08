@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-v1
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: webserver-v1
+  template:
+    metadata:
+      labels:
+        app: webserver-v1
+    spec:
+      containers:
+      - name: webserver
+        image: quay.io/emre_celik/webserver-demo:v1
+        ports:
+        - containerPort: 8080
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
