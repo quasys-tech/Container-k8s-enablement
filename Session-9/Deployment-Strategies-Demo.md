@@ -225,5 +225,11 @@ Networking > Routes > Location kısmındaki adres ile uygulamaya gidilebilir.
 
 Şimdi, podlarda bir değişiklik yapmadan, sadece route tanımındaki service tanımı değiştirilerek blue-green switch yapılır.
 
+Networking > Routes > Edit Route > Service : webserver-v1-green , Target Port: 8080
 
+<img width="1302" height="773" alt="image" src="https://github.com/user-attachments/assets/972a48b7-ddcb-40e2-a56b-26c2e720e5fd" />
+
+Networking > Routes > Location kısmındaki adres ile uygulamaya gidilebilir. Artık mavi sayfa yerine v4 olan yeşil sayfanın açıldığı görülecektir.
+
+<img width="1033" height="510" alt="image" src="https://github.com/user-attachments/assets/1711bf11-1b65-48d9-8b45-a267f259efe6" />
 
