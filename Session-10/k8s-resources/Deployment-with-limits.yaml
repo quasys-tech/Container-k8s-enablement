@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver-test
+  template:
+    metadata:
+      labels:
+        app: webserver-test
+    spec:
+      containers:
+      - name: webserver
+        image: quay.io/emre_celik/webserver-demo:v3
+        ports:
+        - containerPort: 8080
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          limits:
+            cpu: 80m
+            memory: 380Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
