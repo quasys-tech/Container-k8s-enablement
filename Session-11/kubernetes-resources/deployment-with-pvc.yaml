@@ -21,7 +21,7 @@ spec:
           - sleep infinity
         volumeMounts:
         - name: storage
-          mountPath: /data
+          mountPath: /opt
       volumes:
       - name: storage
         persistentVolumeClaim:
