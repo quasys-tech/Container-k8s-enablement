@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvc-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pvc-demo
+  template:
+    metadata:
+      labels:
+        app: pvc-demo
+    spec:
+      containers:
+      - name: demo
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command:
+          - /bin/sh
+          - -c
+          - sleep infinity
