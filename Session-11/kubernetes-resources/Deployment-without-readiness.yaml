@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webserver-v1
+  name: webserver-noreadiness
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webserver-v1
+      app: webserver-noreadiness
   template:
     metadata:
       labels:
-        app: webserver-v1
+        app: webserver-noreadiness
     spec:
       containers:
       - name: webserver
