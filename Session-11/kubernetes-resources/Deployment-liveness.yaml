@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-liveness
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver-liveness
+  template:
+    metadata:
+      labels:
+        app: webserver-liveness
+    spec:
+      containers:
+      - name: webserver
+        image: quay.io/emre_celik/webserver-demo:v1
+        command:
+          - /bin/sh
+          - -c
+          - |
+            echo "Sleeping before startup"
+            sleep 90
+            echo "Starting app"
+            python server.py
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 3
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
