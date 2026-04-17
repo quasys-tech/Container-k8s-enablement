@@ -14,6 +14,10 @@ Ana ekranda, Create Application'a tıklanır:
 
 <img width="1247" height="709" alt="image" src="https://github.com/user-attachments/assets/e9e5144f-06cb-4e50-a6b6-d88e93fd0441" />
 
+Deploy edilecek uygulama aşağıdaki linkten incelenebilir. (Linkte demo-project1 yerine mevcut proje replace edilmelidir. )
+
+https://github.com/oemreclk/openshift-gitops-examples/tree/main/apps/bgd/overlays/demo-project1
+
 Application name: argocd-demo-project1 #project1 değeri, demo user numarası ile aynı olmalıdır.
 Project: default
 Sync Policy Manual
