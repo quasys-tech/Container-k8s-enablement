@@ -55,7 +55,35 @@ Networking > Routes sekmesi altından, linke tıklanarak uygulama açılabilir:
 
 Uygulamadaki topların renkleri , deployment objesi altında belirlenmektedir.
 
-Worklaods > Deployments > 
+Worklaods > Deployments > Yaml > env alanındaki değer yellow yerine green olarak değiştirilir:
+
+<img width="821" height="678" alt="image" src="https://github.com/user-attachments/assets/92f04a50-5f29-4151-8100-5468e07b4d6c" />
+
+Uygulamanın renginin değiştiği teyid edilir:
+
+<img width="1114" height="618" alt="image" src="https://github.com/user-attachments/assets/54ba4160-d498-4d56-82dc-a71c54c09cfa" />
+
+Argocd arayüzüne geri gelinir, uygulamanın OutOfSync status'e düştüğü görülür. Git reposundaki deployment yaml dosyası ile openshift üzerinde bulunan deployment arasında fark bulunduğu için (Renk değeri green olarak değiştirildi.) argocd üzerinde configuration drift gözükmektedir. Argocd ile yönetilen ortamlarda, bu tarz değişikliklerin Git reposundan yönetilmesi gerekmektedir. 
+
+<img width="1662" height="800" alt="image" src="https://github.com/user-attachments/assets/e7157e1b-4152-4507-9f82-91c0007b697e" />
+
+Application > Detail butonuna tıklanır ve Sync Policy alanında bulunan Enable Auto-Sync ve Self heal kutucukları işaretlenir.
+Auto-Sync git reposunda yapılacak değişikliklerin, argocd tarafından direk olarak uygulanmasını sağlar.
+Self Heal ise Openshift'de manuel olarak yapılan değişikliklerin, Git reposundaki konfigürasyon ile fark yaratması durumunda (Deployment içerisinde renk env değerinin green olarak değiştirilmesi) Argocd olarak git reposundaki konfig source of truth kabul edilerek konfigrasyonun düzeltilmesini sağlar.
+
+<img width="1340" height="802" alt="image" src="https://github.com/user-attachments/assets/4046b907-209a-4d87-8925-b9ce12cb1a1e" />
+
+Uygulamanın tekrar sync olduğu teyid edilir:
+
+<img width="1463" height="756" alt="image" src="https://github.com/user-attachments/assets/b7ec5f17-215f-4d69-b287-c47aa0c82d9c" />
+
+Workloads > Deployments > bgd > yaml içerisinden COLOR değerinin tekrar yellow olarak değiştiği görülebilir.
+
+<img width="859" height="759" alt="image" src="https://github.com/user-attachments/assets/c9f8f976-1736-4128-9a19-5cb4054ff2e6" />
+
+Workloads > Deployment altından bgd deployment delete edilir. Delete edildikten sonra argocd tarafından deployment'ın tekrar oluştuğu görülebilir.
+
+
 
 
 
