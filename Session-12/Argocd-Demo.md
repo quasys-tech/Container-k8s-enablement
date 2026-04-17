@@ -15,6 +15,7 @@ Ana ekranda, Create Application'a tıklanır:
 <img width="1247" height="709" alt="image" src="https://github.com/user-attachments/assets/e9e5144f-06cb-4e50-a6b6-d88e93fd0441" />
 
 Deploy edilecek uygulama aşağıdaki linkten incelenebilir. (Linkte demo-project1 yerine mevcut proje replace edilmelidir. )
+Uygulama 1 deployment, 1 service ve 1 route objesi içermektedir.
 
 https://github.com/oemreclk/openshift-gitops-examples/tree/main/apps/bgd/overlays/demo-project1
 
