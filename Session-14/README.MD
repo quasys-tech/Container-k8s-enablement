@@ -1,4 +1,4 @@
-##Load Test
+#Load Test
 For load testing use send-parallel-requests.sh script. Edit namespace and route.
 
 Example Output:
@@ -21,4 +21,4 @@ Client observed 5xx error rate: 0.20%
 Client observed availability: 99.80%
 ```
 
-##Metrics
+#Metrics
