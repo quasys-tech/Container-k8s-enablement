@@ -1,0 +1,52 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: errordemoapp
+  namespace: sreerrordemo
+data:
+  server.py: |
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+    import json
+    import os
+    import threading
+
+    fail_every = int(os.getenv("FAIL_EVERY", "1000"))
+    state = {"total": 0, "failed": 0}
+    lock = threading.Lock()
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, format, *args):
+            return
+
+        def send_text(self, status, text, content_type="text/plain"):
+            self.send_response(status)
+            self.send_header("Content-Type", content_type)
+            self.end_headers()
+            self.wfile.write(text.encode("utf-8"))
+
+        def do_GET(self):
+            if self.path.startswith("/healthz"):
+                self.send_text(200, "ok")
+                return
+
+            if self.path.startswith("/stats"):
+                with lock:
+                    body = json.dumps(state)
+                self.send_text(200, body, "application/json")
+                return
+
+            with lock:
+                state["total"] += 1
+                request_number = state["total"]
+                should_fail = fail_every > 0 and request_number % fail_every == 0
+
+                if should_fail:
+                    state["failed"] += 1
+
+            if should_fail:
+                self.send_text(500, f"request {request_number} failed\n")
+            else:
+                self.send_text(200, f"request {request_number} ok\n")
+
+    port = int(os.getenv("PORT", "8080"))
+    HTTPServer(("0.0.0.0", port), Handler).serve_forever()
