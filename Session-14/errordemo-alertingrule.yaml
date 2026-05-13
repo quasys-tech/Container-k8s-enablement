@@ -1,0 +1,33 @@
+apiVersion: monitoring.openshift.io/v1
+kind: AlertingRule
+metadata:
+  name: errordemo-route-availability
+  namespace: openshift-monitoring
+spec:
+  groups:
+    - name: errordemo.route.slo
+      rules:
+        - alert: ErrorRouteAvailabilityBelowSLO
+          expr: |
+            (
+              100 *
+              (
+                1 -
+                (
+                  sum(increase(haproxy_server_http_responses_total{namespace="openshift-ingress",exported_namespace="sreerrordemo",route="errordemo",code="5xx"}[5m]))
+                  /
+                  clamp_min(sum(increase(haproxy_server_http_responses_total{namespace="openshift-ingress",exported_namespace="sreerrordemo",route="errordemo"}[5m])), 1)
+                )
+              )
+            ) < 99.5
+            and
+            sum(increase(haproxy_server_http_responses_total{namespace="openshift-ingress",exported_namespace="sreerrordemo",route="errordemo"}[5m])) > 50
+          for: 1m
+          labels:
+            severity: warning
+            service: errordemo
+            slo: route-availability
+          annotations:
+            summary: "Errordemo Route availability is below SLO"
+            description: "Errordemo Route availability is below 99.5 percent during the last 5 minutes. This means the service is consuming error budget."
+            runbook_url: "https://example.com/runbooks/errordemo-route-availability"
