@@ -85,11 +85,11 @@ Create the service account  via cli. Login the openshift cluster via oc login co
 
 Than type the command bellow to create your service account.
 ```code
-oc create sa demo-thy-sa
+oc create sa demo
 ````
-Than give the neccecary privileged scc to thhe service account via the command bellow
+Than give the neccecary privileged scc to thhe service account via the command bellow. At lab enviorment this command will fail because the lab user don't have permission to assign scc's. But privilged scc already assign to demo named service account at each project. Creating the service account would be enough. You can still run the command to learn how scc's are assigned but don't worry when command fails.
 ```code
-oc adm policy add-scc-to-user privileged -z demo-thy-sa
+oc adm policy add-scc-to-user privileged -z demo
 ```
 
 This command will dail because of the lack of permits your demo-user has. To solve this porblem lab project already has a service account name demo-sa with privileged scc at every demo project. Type `oc get sa` to list the sa at your project.
@@ -131,7 +131,7 @@ spec:
       labels:
         app: nginx-privileged-demo
     spec:
-      serviceAccountName: demo-sa   # <- service account info
+      serviceAccountName: demo   # <- service account info
       containers:
       - name: nginx
         image: docker.io/library/nginx:latest
@@ -153,7 +153,7 @@ spec:
       labels:
         app: nginx-privileged-demo
     spec:
-      serviceAccountName: demo-sa
+      serviceAccountName: demo
       containers:
       - name: nginx
         image: docker.io/library/nginx:latest
