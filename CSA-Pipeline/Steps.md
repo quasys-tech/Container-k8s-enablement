@@ -23,18 +23,25 @@ In this lab you take the **frontend** of a small online shop (**CSA Shop**) thro
 
 ```bash
 cd csa-shop
-export ME=<your-name>                                           # e.g. student01
-export NS=<your-openshift-namespace>                            # given by the instructor
-export REGISTRY=csa-harbor.quasys.com.tr:40644/csa-pipeline
-export IMAGE=$REGISTRY/csa-shop-frontend-$ME
+export ME=demo-userX                                            # change the X value with your demo user value - example: demo-user15                                         
+export NS=demo-projectX                                         # change the X value with your demo user value - example: demo-project15 
+export REGISTRY=csa-harbor.quasys.com.tr:40644/$ME
+export IMAGE=$REGISTRY/csa-shop-frontend
+export COSIGN_PASSWORD=RETRIVE-FROM-INSTRUCTOR
 ```
 
 ### 0.2 Open Harbor (image registry)
 
-Open the Harbor URL in your browser and log in with the credentials from the instructor. Then log in from the terminal:
+Open the Harbor URL in your browser and log in (no credentials at the cli level). Then log in from the terminal:
 
 ```bash
-docker login csa-harbor.quasys.com.tr:40644
+root@student-02:~/lab-files/secure-pipeline-lab# docker login csa-harbor.quasys.com.tr:40644
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
 ```
 
 <img width="662" height="937" alt="image" src="https://github.com/user-attachments/assets/99a2037d-5470-473c-b5ba-a8e161b335fd" />
@@ -45,7 +52,7 @@ Note: users can see each others projects but cant modify them. Select your users
 
 ### 0.3 Open OpenShift
 
-Log in to the OpenShift web console. :
+Log in to the OpenShift web console. Console link will be provided by instructor.
 
 
 For cli interactions your users already auto logged in at the OpenShift Cluster your instructor provided. Check the connection with oc whoami or oc get pods commands.
@@ -91,9 +98,10 @@ checkov -f frontend/Dockerfile.noncompliant --framework dockerfile,secrets --com
 
 **Expected:** ~13 failed checks, including root user, `latest` tag, port 22, `ADD` instead of `COPY`, `sudo`, `chpasswd`, no `HEALTHCHECK`, and **hard-coded AWS keys**.
 
-ADD-CHECKOV-DOCKERFILE-NONCOMPLIANT-RESULT-IMAGE
+<img width="1803" height="502" alt="image" src="https://github.com/user-attachments/assets/2ecf54e1-d8f6-4c74-85b6-0d0e212d57de" />
 
-❓ Open the file and match each finding to the line that causes it.
+
+❓ Open the file and match each finding to the line that causes it. 
 
 ---
 
@@ -104,13 +112,30 @@ ADD-CHECKOV-DOCKERFILE-NONCOMPLIANT-RESULT-IMAGE
 ```bash
 checkov -f frontend/Dockerfile.vulnerable --framework dockerfile,secrets --compact   # → 0 failed
 docker build -t $IMAGE:vulnerable -f frontend/Dockerfile.vulnerable frontend
-twistcli images scan --address $TWISTLOCK_ADDRESS -u $TWISTCLIUSER -p $TWISTCLIPASSWORD --details $IMAGE:vulnerable
+docker images
+  REPOSITORY                                                    TAG          IMAGE ID       CREATED          SIZE
+  csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend   vulnerable   f15ea869ec3d   11 seconds ago   188M
+
+twistcli images scan --address $ADDRESS -u $USERNAME -p $PASSWORD --details $IMAGE:vulnerable
 ```
 
 **Expected:** compliance **0**, but **~165 vulnerabilities** (17 critical / 77 high). Threshold check: **FAIL**.
 
-ADD-TWISTCLI-VULNERABLE-RESULT-IMAGE
-ADD-PRISMA-CONSOLE-VULNERABLE-IMAGE-RESULT-IMAGE
+checkov IaC scan will return celan - but the packages at the Container Images might have vulknerabilities, to detect them we're scanning the container image with twistcli.
+<img width="1782" height="517" alt="image" src="https://github.com/user-attachments/assets/2848638d-c1cc-4753-bfbc-dd3908d0e98a" />
+
+Output of twistcli
+```bash
+Vulnerabilities found for image csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:vulnerable: total - 164, critical - 17, high - 77, medium - 70, low - 0
+Vulnerability threshold check results: FAIL
+Scan failed due to vulnerability policy violations: Default - alert all components, 17 vulnerabilities. Blocking vulnerabilities by severity OR by risk factors. Severity distribution : [critical:17]
+
+Compliance found for image csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:vulnerable: total - 0, critical - 0, high - 0, medium - 0, low - 0
+Compliance threshold check results: PASS
+Link to the results in Console: https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr/#!/monitor/vulnerabilities/images/ci?search=sha256%3Af15ea869ec3dcb6ca04332d11ec2223f861723faf22e7e2801f226e8a25857b7
+root@student-02:~/lab-files/secure-pipeline-lab# 
+```
+
 
 💡 **Lesson:** a clean Dockerfile does not mean a clean image. The base image (`nginx:1.25` on old Debian packages) brings the CVEs.
 
@@ -124,12 +149,22 @@ ADD-PRISMA-CONSOLE-VULNERABLE-IMAGE-RESULT-IMAGE
 diff frontend/Dockerfile.vulnerable frontend/Dockerfile                    # what changed?
 checkov -f frontend/Dockerfile --framework dockerfile,secrets --compact    # → 0 failed
 docker build -t $IMAGE:v1 -f frontend/Dockerfile frontend
-twistcli images scan --address $TWISTLOCK_ADDRESS -u $TWISTCLIUSER -p $TWISTCLIPASSWORD --details $IMAGE:v1
+twistcli images scan --address $ADDRESS -u $USERNAME -p $PASSWORD --details $IMAGE:v1
 ```
 
 **Expected:** vulnerabilities **0**, compliance **0**, both threshold checks **PASS**.
 
-ADD-TWISTCLI-SECURE-RESULT-IMAGE
+Output:    
+```bash
+Scan results for: image csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:v1 sha256:86689a08965524b0886c79d2796197f6f7f5ff4030400d0f5139218a452cb8e6
+
+Vulnerabilities found for image csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:v1: total - 0, critical - 0, high - 0, medium - 0, low - 0
+Vulnerability threshold check results: PASS
+
+Compliance found for image csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:v1: total - 0, critical - 0, high - 0, medium - 0, low - 0
+Compliance threshold check results: PASS
+Link to the results in Console: https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr/#!/monitor/vulnerabilities/images/ci?search=sha256%3A86689a08965524b0886c79d2796197f6f7f5ff4030400d0f5139218a452cb8e6
+```
 
 ```bash
 docker images | grep csa-shop-frontend-$ME      # compare sizes: ~130 MB vs ~19 MB
@@ -147,7 +182,25 @@ syft $IMAGE:v1 -o cyclonedx-json > sbom-frontend.cdx.json
 syft $IMAGE:vulnerable | wc -l ; syft $IMAGE:v1 | wc -l # compare package counts
 ```
 
-ADD-SYFT-OUTPUT-IMAGE
+```bash
+root@student-02:~/lab-files/secure-pipeline-lab# syft $IMAGE:vulnerable | wc -l ; syft $IMAGE:v1 | wc -l
+ ✔ Loaded image                                                                                      csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:vulnerable
+ ✔ Parsed image                                                                                     sha256:f15ea869ec3dcb6ca04332d11ec2223f861723faf22e7e2801f226e8a25857b7
+ ✔ Cataloged contents                                                                                      ad0a1aac9ea3772c4c9fe11caf83c9dd462e0bcd6b75bcc6d4b925bace50dc10
+   ├── ✔ Packages                        [150 packages]  
+   ├── ✔ Executables                     [843 executables]  
+   ├── ✔ File metadata                   [3,712 locations]  
+A newer version of syft is available for download: 1.54.0 (installed version is 1.52.0)
+151
+ ✔ Loaded image                                                                                              csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:v1
+ ✔ Parsed image                                                                                     sha256:86689a08965524b0886c79d2796197f6f7f5ff4030400d0f5139218a452cb8e6
+ ✔ Cataloged contents                                                                                      49499e9de9a7c5751382d5129cb84267f7a94845e4689d436b9d23091e8bcf20
+   ├── ✔ Packages                        [25 packages]  
+   ├── ✔ Executables                     [32 executables]  
+   ├── ✔ File metadata                   [110 locations]  
+A newer version of syft is available for download: 1.54.0 (installed version is 1.52.0)
+26
+```
 
 ---
 
@@ -163,8 +216,15 @@ From now on, always use the **digest** (`@sha256:...`), never the tag. A tag can
 
 Check the image in Harbor: **Projects → csa-pipeline → csa-shop-frontend-\<me\>**.
 
-ADD-HARBOR-PUSHED-IMAGE-IMAGE
-ADD-HARBOR-IMAGE-DIGEST-IMAGE
+<img width="2517" height="637" alt="image" src="https://github.com/user-attachments/assets/46f7bea5-4729-4f56-9363-d207a7f13c6d" />
+
+Your digest values can be different from values bellow!
+
+```bash
+root@student-02:~/lab-files/secure-pipeline-lab# echo $DIGEST_REF
+csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend@sha256:05d3a7227cb7026ddbd0aefe2c94730e332e42ed7176ca9e0ce7ef06a4da9cc3
+root@student-02:~/lab-files/secure-pipeline-lab# 
+```
 
 ---
 
@@ -173,7 +233,7 @@ ADD-HARBOR-IMAGE-DIGEST-IMAGE
 The instructor gives you `cosign.key`, `cosign.pub` and the key password.
 
 ```bash
-export COSIGN_PASSWORD=<key-password>
+
 cosign sign --key cosign.key --tlog-upload=false --new-bundle-format=false --use-signing-config=false -y $DIGEST_REF
 ```
 
@@ -188,9 +248,23 @@ cosign tree $DIGEST_REF          # shows the attached .sig
 
 > `--tlog-upload=false` / `--insecure-ignore-tlog`: this lab signs offline, without the public Sigstore transparency log.
 
-ADD-COSIGN-VERIFY-OUTPUT-IMAGE
-ADD-HARBOR-SIGNED-IMAGE-IMAGE
+```bash
+root@student-02:~/lab-files/secure-pipeline-lab# cosign verify --key cosign.pub --insecure-ignore-tlog=true $DIGEST_REF
+WARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the signature.
 
+Verification for csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend@sha256:05d3a7227cb7026ddbd0aefe2c94730e332e42ed7176ca9e0ce7ef06a4da9cc3 --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - The signatures were verified against the specified public key
+
+[{"critical":{"identity":{"docker-reference":"csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend"},"image":{"docker-manifest-digest":"sha256:05d3a7227cb7026ddbd0aefe2c94730e332e42ed7176ca9e0ce7ef06a4da9cc3"},"type":"cosign container image signature"},"optional":null}]
+root@student-02:~/lab-files/secure-pipeline-lab# cosign tree $DIGEST_REF
+📦 Supply Chain Security Related artifacts for an image: csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend@sha256:05d3a7227cb7026ddbd0aefe2c94730e332e42ed7176ca9e0ce7ef06a4da9cc3
+└── 🔐 Signatures for an image tag: csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:sha256-05d3a7227cb7026ddbd0aefe2c94730e332e42ed7176ca9e0ce7ef06a4da9cc3.sig
+   └── 🍒 sha256:0f43dafb1d1713ac15c600bfb97612be48a6444fc6bb260e8d7d48b1b6c6f231
+└── 🔗 application/vnd.oci.image.config.v1+json artifacts via OCI referrer: csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend@sha256:38bf1f344e57df2ff994ea11af58b2d8a9a5f33e67ce42e7ff1a383a71ee39a0
+   └── 🍒 sha256:0f43dafb1d1713ac15c600bfb97612be48a6444fc6bb260e8d7d48b1b6c6f231
+```
 ---
 
 # Part 2 – OpenShift deployment
@@ -205,17 +279,23 @@ checkov -d openshift/backend --framework kubernetes,secrets --compact
 
 **Expected:** **0 failed**, 7 skipped. Each skip is a documented exception (see the `checkov.io/skip*` annotations).
 
-ADD-CHECKOV-BACKEND-YAML-RESULT-IMAGE
+```bash
+kubernetes scan results:
+
+Passed checks: 86, Failed checks: 0, Skipped checks: 7
+```
 
 The DB password is **not** stored in git, so create it as a Secret, then deploy:
+The DB_PASSWORD env values at your terminal already has the value so use that
 
 ```bash
-oc create secret generic backend-db --from-literal=DB_PASSWORD='<password-from-instructor>' -n $NS
+oc create secret generic backend-db --from-literal=DB_PASSWORD=$DB_PASSWORD -n $NS
 oc apply -f openshift/backend/ -n $NS
 oc rollout status deploy/backend -n $NS
 ```
 
-ADD-OPENSHIFT-BACKEND-RUNNING-IMAGE
+<img width="1917" height="748" alt="image" src="https://github.com/user-attachments/assets/94af05f2-e020-4ce9-8ab0-089851d30441" />
+
 
 ---
 
@@ -229,7 +309,23 @@ checkov -f openshift/frontend-vulnerable/deployment-vulnerable.yaml --framework 
 
 **Expected:** **27 failed**: privileged, root, hostNetwork/hostPID/hostIPC, Docker socket, `SYS_ADMIN`, no limits, no probes, `latest` tag...
 
-ADD-CHECKOV-FRONTEND-VULNERABLE-YAML-RESULT-IMAGE
+```bash
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.3.22 
+Update available 3.3.22 -> 3.3.23
+Run pip3 install -U checkov to update 
+
+
+kubernetes scan results:
+
+Passed checks: 62, Failed checks: 27, Skipped checks: 0
+
+```
 
 Then the **secure** one:
 
@@ -240,6 +336,13 @@ checkov -d openshift/frontend --framework kubernetes --compact
 **Expected:** only **2 failed**, both about the image (`CHANGEME`: no tag pinning, no digest). You fix those in the next steps.
 
 ❓ Compare `deployment-vulnerable.yaml` and `frontend/01-deployment.yaml` side by side.
+
+Output of 01-deployment scan:   
+```bash
+kubernetes scan results:
+
+Passed checks: 85, Failed checks: 2, Skipped checks: 5
+```
 
 ---
 
