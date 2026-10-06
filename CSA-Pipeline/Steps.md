@@ -21,14 +21,21 @@ In this lab you take the **frontend** of a small online shop (**CSA Shop**) thro
 
 ### 0.1 Set your variables
 
+If the bellow commands return empty ask your instrurctor to set  the enviorment variables
 ```bash
-cd csa-shop
-export ME=demo-userX                                            # change the X value with your demo user value - example: demo-user15                                         
-export NS=demo-projectX                                         # change the X value with your demo user value - example: demo-project15 
-export REGISTRY=csa-harbor.quasys.com.tr:40644/$ME
-export IMAGE=$REGISTRY/csa-shop-frontend
-export COSIGN_PASSWORD=RETRIVE-FROM-INSTRUCTOR
+echo $ME
+echo $NS
+echo $REGISTRY
+echo $IMAGE 
 ```
+
+Seperate from bellow you need to set these env value yourself - ask the password of the cosign key from your register than run the command bellows
+```bash
+export COSIGN_PASSWORD=RETRIVE-FROM-INSTRUCTOR  # Change the password with the one your instructor provides
+echo $COSIGN_PASSWORD
+  // expectation is to see the password value
+```
+
 
 ### 0.2 Open Harbor (image registry)
 
