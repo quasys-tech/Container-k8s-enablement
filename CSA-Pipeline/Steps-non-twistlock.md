@@ -127,31 +127,32 @@ docker images
 Scan the image with trivy (the first run downloads the vulnerability DB, it can take a minute):
 
 ```bash
-# 1) Full report: OS + library vulnerabilities
-trivy image --scanners vuln $IMAGE:vulnerable
-
+# 1) Vulnerability scan (OS packages)
+trivy image --scanners vuln --pkg-types os $IMAGE:vulnerable
+trivy image --scanners vuln --pkg-types os $IMAGE:vulnerable 2>/dev/null | grep "Total"
 # 2) Image config check (root user, secrets in layers, etc.) - the "compliance" part
 trivy image --scanners misconfig,secret --image-config-scanners misconfig,secret $IMAGE:vulnerable
-
-# 3) Threshold check (pipeline gate): fail if there is any CRITICAL vulnerability
-trivy image --scanners vuln --severity CRITICAL --exit-code 1 --quiet $IMAGE:vulnerable
-echo "Threshold check exit code: $?"      # 1 = FAIL, 0 = PASS
 ```
 
 **Expected:** image config findings **0**, but **a lot of vulnerabilities** (many CRITICAL / HIGH). Threshold check exit code **1** → **FAIL**.
 
 checkov IaC scan will return celan - but the packages at the Container Images might have vulknerabilities, to detect them we're scanning the container image with trivy.
 
-ADD-TRIVY-VULNERABLE-SCAN-IMAGE
-
-Output of trivy (summary line - your numbers can be different, the trivy DB is updated daily)
 ```bash
-csa-harbor.quasys.com.tr:40644/demo-user2/csa-shop-frontend:vulnerable (debian 12.x)
-=====================================================================================
-Total: XXX (UNKNOWN: X, LOW: XX, MEDIUM: XX, HIGH: XX, CRITICAL: XX)
 
-Threshold check exit code: 1
+Report Summary
+
+┌────────────────────────────────────────────────────────────────────────────────┬────────┬───────────────────┬─────────┐
+│                                     Target                                     │  Type  │ Misconfigurations │ Secrets │
+├────────────────────────────────────────────────────────────────────────────────┼────────┼───────────────────┼─────────┤
+│ csa-harbor.quasys.com.tr:40644/demo-user3/csa-shop-frontend:vulnerable (debian │ debian │         -         │    -    │
+│ 12.5)                                                                          │        │                   │         │
+└────────────────────────────────────────────────────────────────────────────────┴────────┴───────────────────┴─────────┘
+Legend:
+- '-': Not scanned
 ```
+
+
 
 
 💡 **Lesson:** a clean Dockerfile does not mean a clean image. The base image (`nginx:1.25` on old Debian packages) brings the CVEs.
@@ -167,10 +168,9 @@ diff frontend/Dockerfile.vulnerable frontend/Dockerfile                    # wha
 checkov -f frontend/Dockerfile --framework dockerfile,secrets --compact    # → 0 failed
 docker build -t $IMAGE:v1 -f frontend/Dockerfile frontend
 
-trivy image --scanners vuln $IMAGE:v1
+trivy image --scanners vuln --pkg-types os $IMAGE:v1
+trivy image --scanners vuln --pkg-types os $IMAGE:v1 2>/dev/null | grep "Total"
 trivy image --scanners misconfig,secret --image-config-scanners misconfig,secret $IMAGE:v1
-trivy image --scanners vuln --severity CRITICAL --exit-code 1 --quiet $IMAGE:v1
-echo "Threshold check exit code: $?"      # 1 = FAIL, 0 = PASS
 ```
 
 **Expected:** **0 CRITICAL / 0 HIGH** vulnerabilities, image config findings **0**, threshold check exit code **0** → **PASS**.
