@@ -378,8 +378,6 @@ oc get events -n $NS --sort-by=.lastTimestamp | tail
 
 **Expected:** **rejected** by the Prisma Cloud admission controller, because only **digest-pinned, signed** images are allowed. Try `:latest` too.
 
-ADD-ADMISSION-REJECTED-TAG-IMAGE
-ADD-PRISMA-ADMISSION-AUDIT-IMAGE
 
 ---
 
@@ -395,8 +393,10 @@ oc get route frontend -n $NS -o jsonpath='https://{.spec.host}{"\n"}'
 
 Open the URL. The shop loads, the header shows **"API + DB online"**, and each product shows its stock. Place an order and watch the stock drop. That proves frontend → backend → database works.
 
-ADD-OPENSHIFT-TOPOLOGY-VIEW-IMAGE
-ADD-CSA-SHOP-WEB-UI-IMAGE
+<img width="1417" height="902" alt="image" src="https://github.com/user-attachments/assets/8d12eb94-3933-4646-a933-723b75f0bb43" />
+
+<img width="2542" height="988" alt="image" src="https://github.com/user-attachments/assets/4ae173bb-428e-412a-9660-9e4377354155" />
+
 
 > The Route is HTTPS only (edge TLS). `http://` is refused.
 
@@ -426,7 +426,7 @@ oc get networkpolicy -n $NS
 | `backend-egress-to-postgresql` | backend → PostgreSQL in `csa-app-db` :5432 |
 | `allow-dns-egress` | frontend + backend → CoreDNS in `openshift-dns` |
 
-ADD-NETWORK-POLICY-DIAGRAM-IMAGE
+<img width="1417" height="902" alt="image" src="https://github.com/user-attachments/assets/8d12eb94-3933-4646-a933-723b75f0bb43" />
 
 Test again:
 
@@ -437,8 +437,6 @@ oc run np-test --rm -i --image=registry.access.redhat.com/ubi9/ubi-minimal --res
 
 The shop in the browser **still works**: router → frontend → backend → DB is allowed.
 
-ADD-NETWORK-POLICY-BLOCKED-TEST-IMAGE
-ADD-CSA-SHOP-STILL-WORKING-IMAGE
 
 ---
 
@@ -454,5 +452,3 @@ ADD-CSA-SHOP-STILL-WORKING-IMAGE
 | Trust | Sign + verify | cosign |
 | Deploy | Only signed, digest-pinned images | Prisma Cloud admission |
 | Run | Non-root, read-only FS, limits, least-privilege network | OpenShift SCC + NetworkPolicy |
-
-ADD-FINAL-PIPELINE-OVERVIEW-IMAGE
