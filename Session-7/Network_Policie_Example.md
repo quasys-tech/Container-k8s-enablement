@@ -1,5 +1,8 @@
 Enter the cluster with provided infos from your tutor.
 
+<img width="1545" height="772" alt="image" src="https://github.com/user-attachments/assets/37ae046b-6c44-4d87-87ab-9850c04d3d8b" />
+
+
 Head over to the Workloads -> Deployments section and make sure to select youyr namespace from top left corner.
 Then create the deployment and service instance we are gonna use
 
@@ -129,8 +132,16 @@ spec:
 
 Than try to use `curl orange-svc.testorange.svc.cluster.local` command again at the pod and make sure that it can access the pod via service instance hostname entry.
 
+Create a route instance at Networking -> Routes -> Create Route
+<img width="1500" height="762" alt="image" src="https://github.com/user-attachments/assets/0ebbe383-2da6-4cf2-9909-0fb630e042d6" />   
+<img width="1512" height="727" alt="image" src="https://github.com/user-attachments/assets/a03cdacf-b42b-4b1a-b179-746cf2ac5f95" />
 
+Than try to access it via url address givin from the freshly created route instance
 
+<img width="1495" height="860" alt="image" src="https://github.com/user-attachments/assets/fa2cece0-983b-4934-a9b0-3178870bbca8" />   
+<img width="1871" height="627" alt="image" src="https://github.com/user-attachments/assets/a2513faa-bb41-4146-af8c-ff8969757fb9" />
+
+The application is not avaible because the block all ingress policy blocking traffic coming form router pods at openshift-ingress project. So we need to add an Network Policie that allows that trafic.
 
 For route access apply also this Network Policie
 
@@ -154,3 +165,8 @@ spec:
         - port: 8080
           protocol: TCP
 ```
+
+After that refresh the page of route instance url and confirm that its accecable
+
+<img width="885" height="412" alt="image" src="https://github.com/user-attachments/assets/e53de6de-2ce0-4590-8c7d-56d661e3f98f" />
+
