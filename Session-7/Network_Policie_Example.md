@@ -46,14 +46,14 @@ spec:
   selector:
     app: demo-app
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 8080
 ```
 
 After that make sure the pods run via Workloads->Pods section. Expected is 1 pod at Running State.
 
 Than head over to pod details and clicked at the Terminal tab at the right top corner.
-At the terminal type `curl http://orange-svc.testorange.svc.cluster.local:8080` to make sure that you can access an web nginx application.
+At the terminal type `curl orange-svc.testorange.svc.cluster.local` to make sure that you can access an web nginx application.
 
 Than at a web new page head over to the Networking->Network Policies and create the first network policie that blocks both egress and ingress traffic
 
@@ -70,7 +70,7 @@ spec:
 ```
 
 
-Than try to run the `curl http://orange-svc.testorange.svc.cluster.local:8080` command again to releaize that connection is blocked.
+Than try to run the `curl orange-svc.testorange.svc.cluster.local` command again to releaize that connection is blocked.
 
 To allow connection add another network policie with egress traffic allowed to a spesific pod in a spesific namespace
 
@@ -98,7 +98,7 @@ spec:
       protocol: TCP
 ```
 
-Try to access to it via ``curl http://orange-svc.testorange.svc.cluster.local:8080`. It will fail again because we didint allow the coreDNS connection for gathering service isntance ip address. But we can access it with service instance ip address directly with `curl 172.30.244.135:8080` command. After that for allowing the CoreDns access for dns resulutions apply the next network policie.
+Try to access to it via `curl orange-svc.testorange.svc.cluster.local`. It will fail again because we didint allow the coreDNS connection for gathering service isntance ip address. But we can access it with service instance ip address directly with `curl 172.30.202.143` command. After that for allowing the CoreDns access for dns resulutions apply the next network policie.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -127,7 +127,7 @@ spec:
           protocol: TCP
 ```
 
-Than try to use `curl http://orange-svc.testorange.svc.cluster.local:8080` command again at the pod and make sure that it can access the pod via service instance hostname entry.
+Than try to use `curl orange-svc.testorange.svc.cluster.local` command again at the pod and make sure that it can access the pod via service instance hostname entry.
 
 
 
@@ -151,6 +151,6 @@ spec:
             matchLabels:
               network.openshift.io/policy-group: ingress
       ports:
-        - port: 8080
+        - port: 80
           protocol: TCP
 ```
