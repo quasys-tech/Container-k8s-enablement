@@ -1,6 +1,7 @@
 Enter the cluster with provided infos from your tutor.
 
-<img width="1545" height="772" alt="image" src="https://github.com/user-attachments/assets/37ae046b-6c44-4d87-87ab-9850c04d3d8b" />
+<img width="1462" height="782" alt="image" src="https://github.com/user-attachments/assets/3350eda1-69b8-411a-8616-56126d0c7ddd" />
+
 
 
 Head over to the Workloads -> Deployments section and make sure to select youyr namespace from top left corner.
