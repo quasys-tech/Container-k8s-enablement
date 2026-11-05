@@ -76,6 +76,13 @@ spec:
 
 Than try to run the `curl orange-svc.testorange.svc.cluster.local` command again to releaize that connection is blocked.
 
+To access the pods terminal go to Pods -> [Note: make sure that demo-projectXX is selected as project from the top left section] Select Pod -> Click at Terminal
+
+<img width="1875" height="753" alt="image" src="https://github.com/user-attachments/assets/ebb85042-64e7-460c-916f-c30f666ecab2" />   
+<img width="1847" height="652" alt="image" src="https://github.com/user-attachments/assets/e317a0cc-8977-4d76-8353-c0605d5e89d6" />
+
+
+
 To allow connection add another network policie with egress traffic allowed to a spesific pod in a spesific namespace
 
 ```yaml
