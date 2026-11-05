@@ -94,7 +94,7 @@ spec:
         matchLabels:
           app: orange
     ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
 ```
 
