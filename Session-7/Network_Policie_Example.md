@@ -151,6 +151,6 @@ spec:
             matchLabels:
               network.openshift.io/policy-group: ingress
       ports:
-        - port: 80
+        - port: 8080
           protocol: TCP
 ```
