@@ -31,7 +31,7 @@ $ docker images
 Build olduktan sonra taraması için aşağıdaki komutu çalıştırıyoruz. Twistcli console adresi eğitimlerdee değişiklik gösterebilir ! USERNAME ve PASSWORD env değerleri setlenmiş olduğuından sadece console kontrolü yapılmalıdır.
 ```bash
 $ twistcli images scan \
-  --address   \
+  --address https://prisma-cloud.quasys.com.tr:40883 \
   -u  $USERNAME \
   -p  $PASSWORD \
   --details \
