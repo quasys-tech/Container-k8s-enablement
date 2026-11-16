@@ -31,7 +31,7 @@ $ docker images
 Build olduktan sonra taraması için aşağıdaki komutu çalıştırıyoruz. Twistcli console adresi eğitimlerdee değişiklik gösterebilir ! USERNAME ve PASSWORD env değerleri setlenmiş olduğuından sadece console kontrolü yapılmalıdır.
 ```bash
 $ twistcli images scan \
-  --address  https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr \
+  --address   \
   -u  $USERNAME \
   -p  $PASSWORD \
   --details \
@@ -84,7 +84,7 @@ $ docker images
 Build olduktan sonra taraması için aşağıdaki komutu çalıştırıyoruz.  Çıktıda ENV uyarılını inceleyin.
 ```bash
 $ twistcli images scan \
-  --address  https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr \
+  --address  https://prisma-cloud.quasys.com.tr:40883 \
   -u  $USERNAME \
   -p  $PASSWORD \
   --details \
@@ -153,7 +153,7 @@ $ docker images
 Build olduktan sonra taraması için aşağıdaki komutu çalıştırıyoruz.  Çıktıda ENV uyarılını inceleyin.
 ```bash
 $ twistcli images scan \
-  --address  https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr \
+  --address  https://prisma-cloud.quasys.com.tr:40883 \
   -u  $USERNAME \
   -p  $PASSWORD \
   --details \
