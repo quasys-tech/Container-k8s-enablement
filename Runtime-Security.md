@@ -201,8 +201,9 @@ Burada container'lar risk durumuna göre renklenir — davranış sergileyenler 
 Menü: **Monitor > Events > Container audits**. Namespace'e göre filtrele.
 Her satır bir tespit: zaman, container, tespit tipi (processes / kubernetes), ve etki (**prevent** / **alert**).
 
+<img width="2505" height="1217" alt="image" src="https://github.com/user-attachments/assets/e2af190b-7532-4caa-9ef5-3b4d7dbaac98" />   
 <img width="2497" height="1132" alt="image" src="https://github.com/user-attachments/assets/8b95379a-9f03-4508-963d-345ed16fc784" />
-<img width="2505" height="1217" alt="image" src="https://github.com/user-attachments/assets/e2af190b-7532-4caa-9ef5-3b4d7dbaac98" />
+
 
 
 
