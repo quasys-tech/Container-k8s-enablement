@@ -43,7 +43,7 @@ Use the command below to scan the container image for vulnerabilities and compli
 
 ```bash
 $ twistcli images scan \
-  --address https://console-twistlock.apps.ocp-qua-prod.quasys.com.tr \
+  --address https://prisma-cloud.quasys.com.tr:40883 \
   -u $USERNAME \
   -p $PASSWORD \
   --details \
