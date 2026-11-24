@@ -14,7 +14,7 @@ Policy: **`demo-vulnerabilities-strict`** (runtime container policy, `demo-vulne
 |---|---|---|---|---|
 | `runtime-demo-crypto-miner` | `quay.io/umut_celik/runtime-demo-crypto-miner` | `xmrig` ile mining pool'a bağlanma | **Crypto miner** (processes) | 🔴 Prevent (bloklanır) |
 | `runtime-demo-suid-escalation` | `quay.io/umut_celik/runtime-demo-suid-escalation` | `/bin/bash`'in setuid-root kopyasını oluşturma | **SUID binary** (processes) | 🔴 Prevent (bloklanır) |
-| `runtime-demo-lateral-movement` | `quay.io/umut_celik/runtime-demo-lateral-movement` | Service account token ile Kubernetes API keşfi (recon) | **Lateral movement / K8s attack** (kubernetes) | 🟡 Alert (uyarı) |
+| `runtime-demo-lateral-movement` | `quay.io/umut_celik/runtime-demo-lateral-movement` | Service account token ile Kubernetes API keşfi (recon) | **Lateral movement / K8s attack** (kubernetes) | 🔴 Prevent (bloklanır) |
 
 **Neden uyarı veriyorlar?**
 - **crypto-miner:** `xmrig` bilinen bir mining aracı ve bir mining pool'una bağlanmaya çalışıyor. Defender bunu kripto madencilik davranışı olarak tanıyıp çalıştırmayı **engelliyor** (prevent).
