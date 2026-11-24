@@ -174,6 +174,7 @@ done
 ---
 
 ## 3. Runtime'ın İncelenmesi (Katılımcı Adımları)
+Prisma Cloud adresi: 
 
 ### Adım 1 — Pod'ların çalıştığını gör
 ```bash
@@ -187,6 +188,11 @@ oc get pods -n demo-vulnerabilities -l demo=runtime-security
 ### Adım 2 — Radar üzerinde genel görünüm
 Menü: **Radars > Containers**. Üstten namespace filtresi: `demo-vulnerabilities`.
 Burada container'lar risk durumuna göre renklenir — davranış sergileyenler **kırmızı/sarı** hexagon olarak öne çıkar.
+
+<img width="2115" height="1226" alt="image" src="https://github.com/user-attachments/assets/48a1c532-22e4-4ce8-b7ab-ec7519864b85" />
+<img width="2090" height="1210" alt="image" src="https://github.com/user-attachments/assets/7e0b30a5-0e14-4ebe-8011-278817b50670" />
+<img width="2117" height="1206" alt="image" src="https://github.com/user-attachments/assets/1448400a-7f36-44c2-a129-061515971dec" />
+
 
 <img width="1907" height="1040" alt="image" src="https://github.com/user-attachments/assets/8fd8ba26-16d5-4f81-b41b-1790da94dcff" />
 
