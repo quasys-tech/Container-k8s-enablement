@@ -182,6 +182,11 @@ oc get pods -n demo-vulnerabilities -l demo=runtime-security
 ```
 Üç pod da `Running` durumda olmalı.
 
+<img width="2527" height="1267" alt="image" src="https://github.com/user-attachments/assets/70f68398-1793-416d-8e90-2af86ca5049f" />
+<img width="1696" height="757" alt="image" src="https://github.com/user-attachments/assets/1a8d8fb1-2802-49ba-86aa-88e9a411372c" />
+<img width="1007" height="767" alt="image" src="https://github.com/user-attachments/assets/9ca048cf-1480-4d77-a7fd-b7488af22da1" />
+
+
 <img width="2262" height="537" alt="image" src="https://github.com/user-attachments/assets/8a9850f2-99b4-4344-8482-59bd33378b72" />
 
 
